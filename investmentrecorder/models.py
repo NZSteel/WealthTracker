@@ -121,7 +121,16 @@ class InvestmentValuation(models.Model):
         decimal_places=10,
         null=True,
         blank=True)
-    status = models.CharField(max_length=10, help_text='Actual or derived interim value')
+    INVESTMENT_STATUS = (
+        ('actual', 'Actual'),
+        ('derived', 'Derived'),
+    )
+    status = models.CharField(
+        max_length=10,
+        default='actual',
+        help_text='Actual or derived interim value'
+    )
+    latest = models.CharField(max_length=1, default='y')
 
     def __str__(self):
         return f'{self.id} ({self.investment.short_name})'

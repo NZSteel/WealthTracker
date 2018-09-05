@@ -1,0 +1,16 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Wealth Tracker Home</h1>
+  <p>Welcome to WealthTracker, a website developed by <em>Mercury Lake</em>!</p>
+  <h2>Current Position</h2>
+  <p>The application has the following record counts:</p>
+  <ul>
+    <li><strong>Investments:</strong> {{ num_investments }}</li>
+  </ul>
+    <p>The latest valuation is as follows</p>
+    <ul>
+        <li><strong>GBP</strong> {{ total_gbp }}</li>
+        <li><strong>USD</strong> {{ total_usd }}</li>
+    </ul>
+{% endblock %}
