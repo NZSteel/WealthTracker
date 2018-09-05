@@ -67,17 +67,28 @@ class Investment(models.Model):
         return f'{self.short_name}'
 
 
-class InvestmentCapital(models.Model):
+class InvestmentTransaction(models.Model):
     # Fields
     investment = models.ForeignKey('Investment', on_delete=models.CASCADE)
-    purchase_date = models.DateField(
+    TRANSTYPE = (
+        ('b', 'Bought'),
+        ('s', 'Sold'),
+        ('r', 'Revenue'),
+        ('e', 'Expense')
+    )
+    type = models.CharField(
+        max_length=1,
+        choices=TRANSTYPE,
+    )
+    description = models.CharField(
+        max_length=500,
+        help_text='Please enter a useful description',
+        blank=True,
+    )
+    date = models.DateField(
         null=True,
         blank=True,
-        help_text='Enter the date this tranche of investment was made')
-    liquidate_date = models.DateField(
-        null=True,
-        blank=True,
-        help_text='Enter the date this tranche of investment was liquidated')
+        help_text='Enter the date this transaction was made')
     number_of_units = models.DecimalField(
         max_digits=17,
         decimal_places=8,
@@ -88,43 +99,14 @@ class InvestmentCapital(models.Model):
         decimal_places=10,
         null=True,
         blank=True)
-    purchase_amount = models.DecimalField(
-        max_digits=11,
-        decimal_places=2,
-        null=True,
-        blank=True)
-    liquidate_amount = models.DecimalField(
-        max_digits=11,
+    amount = models.DecimalField(
+        max_digits=12,
         decimal_places=2,
         null=True,
         blank=True)
     currency = models.ForeignKey(
         'Currency',
         on_delete=models.PROTECT)
-
-    def __str__(self):
-        return f'{self.id} ({self.investment.short_name})'
-
-
-class InvestmentRevenue(models.Model):
-    investment = models.ForeignKey('Investment', on_delete=models.CASCADE)
-    date = models.DateField(help_text='Enter the date the revenue was received')
-    currency = models.ForeignKey(
-        'Currency',
-        on_delete=models.PROTECT)
-    amount = models.DecimalField(max_digits=11, decimal_places=2)
-
-    def __str__(self):
-        return f'{self.id} ({self.investment.short_name})'
-
-
-class InvestmentExpense(models.Model):
-    investment = models.ForeignKey('Investment', on_delete=models.CASCADE)
-    date = models.DateField(help_text='Enter the date the revenue was received')
-    currency = models.ForeignKey(
-        'Currency',
-        on_delete=models.PROTECT)
-    amount = models.DecimalField(max_digits=11, decimal_places=2)
 
     def __str__(self):
         return f'{self.id} ({self.investment.short_name})'

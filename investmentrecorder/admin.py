@@ -4,22 +4,31 @@ from django.contrib import admin
 
 from investmentrecorder.models import \
     Investment, \
-    InvestmentCapital, \
-    InvestmentExpense, \
-    InvestmentRevenue, \
+    InvestmentTransaction, \
     InvestmentValuation, \
     ExternalUpdater,  \
     Currency
 
 
+class InvestmentTransactionInline(admin.TabularInline):
+    model = InvestmentTransaction
+    extra = 1
+
+
+class InvestmentValuationInline(admin.TabularInline):
+    model = InvestmentValuation
+    extra = 1
+
+
 class InvestmentAdmin(admin.ModelAdmin):
     list_filter = ('short_name', 'investment_type', 'currency', 'description')
     list_display = ('short_name', 'investment_type', 'currency', 'description')
+    inlines = [InvestmentTransactionInline, InvestmentValuationInline]
 
 
-class InvestmentCapitalAdmin(admin.ModelAdmin):
-    list_filter = ('investment', 'purchase_date', 'liquidate_date')
-    list_display = ('investment', 'purchase_date', 'liquidate_date')
+class InvestmentTransactionAdmin(admin.ModelAdmin):
+    list_filter = ('investment', 'type', 'date', 'amount')
+    list_display = ('investment', 'type', 'description', 'date', 'amount')
 
 
 class ExternalUpdaterAdmin(admin.ModelAdmin):
@@ -27,9 +36,7 @@ class ExternalUpdaterAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Investment, InvestmentAdmin)
-admin.site.register(InvestmentCapital, InvestmentCapitalAdmin)
-admin.site.register(InvestmentExpense)
-admin.site.register(InvestmentRevenue)
+admin.site.register(InvestmentTransaction, InvestmentTransactionAdmin)
 admin.site.register(InvestmentValuation)
 admin.site.register(ExternalUpdater, ExternalUpdaterAdmin)
 admin.site.register(Currency)
