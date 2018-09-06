@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'investmentrecorder.apps.InvestmentrecorderConfig',
+    'djmoney',
+    'djmoney.contrib.exchange',
 ]
 
 MIDDLEWARE = [
@@ -121,3 +123,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# DJMoney Exchange rates
+
+OPEN_EXCHANGE_RATES_APP_ID = '1bbf161a2488475c8a138688ee258a19'

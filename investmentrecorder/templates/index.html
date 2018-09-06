@@ -1,4 +1,5 @@
 {% extends "base_generic.html" %}
+{%  load djmoney %}
 
 {% block content %}
   <h1>Wealth Tracker Home</h1>
@@ -10,7 +11,7 @@
   </ul>
     <p>The latest valuation is as follows</p>
     <ul>
-        <li><strong>GBP</strong> {{ total_gbp }}</li>
-        <li><strong>USD</strong> {{ total_usd }}</li>
+        <li><strong>GBP</strong> {% money_localize total_gbp 'GBP'%}</li>
+        <li><strong>USD</strong> {% money_localize total_usd 'USD' %}</li>
     </ul>
 {% endblock %}

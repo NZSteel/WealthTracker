@@ -1,6 +1,6 @@
+from djmoney.models.fields import MoneyField
 from django.db import models
 from django.urls import reverse
-
 
 # Create your models here.
 
@@ -41,16 +41,20 @@ class Investment(models.Model):
         max_length=100,
         null=True,
         blank=True)
-    total_invested = models.DecimalField(
-        max_digits=11,
-        decimal_places=2,
+    total_invested = MoneyField(
+        max_digits=19,
+        decimal_places=4,
         null=True,
-        blank=True)
-    total_returned = models.DecimalField(
-        max_digits=11,
-        decimal_places=2,
+        blank=True,
+        default_currency='GBP',
+    )
+    total_returned = MoneyField(
+        max_digits=19,
+        decimal_places=4,
         null=True,
-        blank=True)
+        blank=True,
+        default_currency='GBP',
+    )
     total_number_of_units = models.DecimalField(
         max_digits=17,
         decimal_places=8,
@@ -99,11 +103,13 @@ class InvestmentTransaction(models.Model):
         decimal_places=10,
         null=True,
         blank=True)
-    amount = models.DecimalField(
-        max_digits=12,
-        decimal_places=2,
+    amount = MoneyField(
+        max_digits=19,
+        decimal_places=4,
         null=True,
-        blank=True)
+        blank=True,
+        default_currency='GBP',
+    )
     currency = models.ForeignKey(
         'Currency',
         on_delete=models.PROTECT)
@@ -115,7 +121,11 @@ class InvestmentTransaction(models.Model):
 class InvestmentValuation(models.Model):
     investment = models.ForeignKey('Investment', on_delete=models.CASCADE)
     date = models.DateField(help_text='Enter the date the revenue was received')
-    amount = models.DecimalField(max_digits=11, decimal_places=2)
+    amount = MoneyField(
+        max_digits=19,
+        decimal_places=4,
+        default_currency='GBP',
+    )
     price_per_unit = models.DecimalField(
         max_digits=19,
         decimal_places=10,
