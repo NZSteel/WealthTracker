@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'investmentrecorder.apps.InvestmentrecorderConfig',
     'djmoney',
     'djmoney.contrib.exchange',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -58,7 +59,9 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'templates')]
+            os.path.join(BASE_DIR, 'templates'),
+            './templates',
+        ]
         ,
         'APP_DIRS': True,
         'OPTIONS': {
@@ -127,3 +130,6 @@ STATIC_URL = '/static/'
 # DJMoney Exchange rates
 
 OPEN_EXCHANGE_RATES_APP_ID = '1bbf161a2488475c8a138688ee258a19'
+
+# Redirect to home URL after login
+LOGIN_REDIRECT_URL = '/'

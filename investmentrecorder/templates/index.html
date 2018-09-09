@@ -1,5 +1,4 @@
 {% extends "base_generic.html" %}
-{%  load djmoney %}
 
 {% block content %}
   <h1>Wealth Tracker Home</h1>
@@ -11,7 +10,19 @@
   </ul>
     <p>The latest valuation is as follows</p>
     <ul>
-        <li><strong>GBP</strong> {% money_localize total_gbp 'GBP'%}</li>
-        <li><strong>USD</strong> {% money_localize total_usd 'USD' %}</li>
+        <li><strong>GBP</strong> {{ total_gbp }}</li>
+        <li><strong>USD</strong> {{ total_usd }}</li>
     </ul>
+     <h1>Valuation List</h1>
+    {% if investmentvaluation_list %}
+  <ul>
+    {% for investmentvaluation in investmentvaluation_list %}
+      <li>
+        <a href="">{{ investmentvaluation.investment.short_name }}</a> ({{investmentvaluation.amount}})
+      </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p>There are no investments recorded.</p>
+  {% endif %}
 {% endblock %}

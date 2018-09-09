@@ -1,0 +1,4 @@
+Django==2.1.1
+django-money==0.14.3
+py-moneyed==0.7.0
+pytz==2018.5

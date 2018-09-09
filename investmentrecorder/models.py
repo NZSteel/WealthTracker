@@ -1,6 +1,7 @@
-from djmoney.models.fields import MoneyField
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import User
+
 
 # Create your models here.
 
@@ -14,7 +15,7 @@ class Investment(models.Model):
         null=True,
         blank=True,
         help_text='Enter the date the Asset was liquidated')
-
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     INVESTMENT_TYPE = (
         ('Prop', 'Real Estate'),
         ('Cash', 'Cash Investment/Term Deposit'),
@@ -41,19 +42,17 @@ class Investment(models.Model):
         max_length=100,
         null=True,
         blank=True)
-    total_invested = MoneyField(
+    total_invested = models.DecimalField(
         max_digits=19,
         decimal_places=4,
         null=True,
         blank=True,
-        default_currency='GBP',
     )
-    total_returned = MoneyField(
+    total_returned = models.DecimalField(
         max_digits=19,
         decimal_places=4,
         null=True,
         blank=True,
-        default_currency='GBP',
     )
     total_number_of_units = models.DecimalField(
         max_digits=17,
@@ -103,12 +102,11 @@ class InvestmentTransaction(models.Model):
         decimal_places=10,
         null=True,
         blank=True)
-    amount = MoneyField(
+    amount = models.DecimalField(
         max_digits=19,
         decimal_places=4,
         null=True,
         blank=True,
-        default_currency='GBP',
     )
     currency = models.ForeignKey(
         'Currency',
@@ -121,11 +119,13 @@ class InvestmentTransaction(models.Model):
 class InvestmentValuation(models.Model):
     investment = models.ForeignKey('Investment', on_delete=models.CASCADE)
     date = models.DateField(help_text='Enter the date the revenue was received')
-    amount = MoneyField(
+    amount = models.DecimalField(
         max_digits=19,
         decimal_places=4,
-        default_currency='GBP',
     )
+    currency = models.ForeignKey(
+        'Currency',
+        on_delete=models.PROTECT)
     price_per_unit = models.DecimalField(
         max_digits=19,
         decimal_places=10,
